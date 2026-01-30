@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>شفرة التفوق | الدليل التفاعلي الشامل</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #fdfcf7;
+            color: #1f2937;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* نظام العلامات المائية المدمج */
+        .science-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+            padding: 0 10px;
+        }
+        .column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+        .emoji {
+            font-size: 1.8rem;
+            opacity: 0.3;
+            margin: 40px 0;
+            animation: rain 60s linear infinite;
+        }
+        @keyframes rain {
+            0% { transform: translateY(-100vh) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
+        }
+        .col-odd .emoji { animation-duration: 70s; }
+        .col-even .emoji { animation-duration: 50s; animation-delay: -15s; }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            margin: auto;
+            height: 250px; 
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+                max-width: 500px;
+            }
+        }
+        .nav-active {
+            color: #d97706;
+            border-bottom: 3px solid #d97706;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+        }
+        .week-card:hover {
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+        }
+        section {
+            overflow: hidden;
+        }
+        .quote-box {
+            background-color: #fffbeb;
+            border-right: 4px solid #d97706;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0.5rem;
+            font-style: italic;
+            color: #92400e;
+            font-weight: 500;
+        }
+        .quote-author {
+            display: block;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: #b45309;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="science-bg" id="watermarkGrid"></div>
+
+  <nav class="fixed top-0 w-full z-50 glass-effect border-b border-amber-100 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+            <div class="flex items-center gap-2 shrink-0">
+                <span class="text-2xl md:text-3xl">💎</span>
+                <div class="flex flex-col">
+                    <span class="text-xl md:text-2xl font-extrabold text-blue-900 leading-tight">شفرة التفوق</span>
+                    <span class="text-[10px] md:text-xs font-medium text-gray-500 tracking-wide">دليلك التفاعلي و مصادر بلمسة واحدة</span>
+                </div>
+            </div>
+            <div class="hidden md:flex space-x-8 space-x-reverse font-bold text-gray-600">
+                <a href="#home" class="hover:text-amber-600 transition">البداية</a>
+                <a href="#compass" class="hover:text-amber-600 transition">البوصلة</a>
+                <a href="#plan" class="hover:text-amber-600 transition">الخطة</a>
+                <a href="#resources" class="hover:text-amber-600 transition">المصادر</a>
+                <a href="#tracker" class="hover:text-amber-600 transition">الإنجاز</a>
+            </div>
+            <div class="flex items-center gap-3">
+                <button onclick="document.getElementById('tracker').scrollIntoView()" class="hidden sm:block bg-amber-500 text-white px-4 md:px-6 py-2 rounded-full font-bold shadow-md hover:bg-amber-600 transition text-sm">سجل درجاتك</button>
+                <button onclick="toggleMobileMenu()" class="md:hidden text-blue-900 p-2 focus:outline-none">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-amber-100 absolute w-full left-0 top-20 shadow-lg py-4 px-4 flex flex-col space-y-4">
+            <a href="#home" onclick="toggleMobileMenu()" class="block py-2 text-gray-700 font-bold hover:text-amber-600 hover:bg-amber-50 rounded px-2">البداية</a>
+            <a href="#compass" onclick="toggleMobileMenu()" class="block py-2 text-gray-700 font-bold hover:text-amber-600 hover:bg-amber-50 rounded px-2">البوصلة</a>
+            <a href="#plan" onclick="toggleMobileMenu()" class="block py-2 text-gray-700 font-bold hover:text-amber-600 hover:bg-amber-50 rounded px-2">الخطة</a>
+            <a href="#resources" onclick="toggleMobileMenu()" class="block py-2 text-gray-700 font-bold hover:text-amber-600 hover:bg-amber-50 rounded px-2">المصادر</a>
+            <a href="#tracker" onclick="toggleMobileMenu()" class="block py-2 text-gray-700 font-bold hover:text-amber-600 hover:bg-amber-50 rounded px-2">الإنجاز</a>
+            <button onclick="document.getElementById('tracker').scrollIntoView(); toggleMobileMenu()" class="w-full bg-amber-500 text-white py-3 rounded-xl font-bold shadow-md">سجل درجاتك</button>
+        </div>
+    </nav>
+
+<main class="mt-24 space-y-24 px-4 pb-20 overflow-x-hidden">
+
+        <section id="home" class="max-w-5xl mx-auto text-center py-8 md:py-12">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-blue-900 mb-2 leading-tight">عتبة الطموح..<br><span class="text-amber-500">والطريق إلى الحلم</span></h1>
+            <p class="text-sm md:text-base font-bold text-gray-500 mb-6"></p>
+            
+            <p class="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8 leading-relaxed px-2">
+                تقف الآن في محطة مفصلية نحو جامعة أحلامك. هذا الدليل ليس مجرد نصوص، بل هو "خارطة طريق" ذكية صممت لتوفر عليك عناء البحث............<span class="text-blue-400 italic">"أخوكم عبدالله المرواني "</span>
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 px-6 sm:px-0">
+                <a href="#plan" class="w-full sm:w-auto bg-blue-900 text-white px-8 py-4 rounded-2xl text-lg font-bold shadow-xl hover:scale-105 transition transform text-center">ابدأ خطة الـ 6 أسابيع</a>
+                <a href="#resources" class="w-full sm:w-auto bg-white text-blue-900 border-2 border-blue-900 px-8 py-4 rounded-2xl text-lg font-bold hover:bg-blue-50 transition text-center">تصفح المصادر</a>
+            </div>
+            
+            <div class="max-w-2xl mx-auto mt-10">
+                <div class="quote-box">
+                    "الخطط ليست سوى نوايا حسنة ما لم تتحول فوراً إلى عمل شاق"
+                    <span class="quote-author">- بيتر دراكر</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="compass" class="max-w-6xl mx-auto scroll-mt-28">
+            <div class="bg-white rounded-3xl p-6 md:p-12 shadow-sm border border-gray-100">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+                    <div class="order-2 md:order-1">
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+                            <span class="p-2 bg-amber-100 rounded-lg">🧭</span> تعريف البوصلة
+                        </h2>
+                        <p class="text-gray-600 mb-8 leading-relaxed text-sm md:text-base">
+                            الاختبار التحصيلي هو مقياس موحد لخريجي الثانوية. يعتمد نجاحك فيه على فهم "ثقل" كل سنة دراسية في الاختبار. 
+                        </p>
+                         <div class="quote-box">
+                            "التعليم هو أقوى سلاح يمكنك استخدامه لتغيير العالم."
+                            <span class="quote-author">— نيلسون مانديلا</span>
+                        </div>
+                        <div class="space-y-3 mt-6">
+                            <div class="flex items-center gap-4 p-3 md:p-4 bg-gray-50 rounded-xl">
+                                <span class="text-xl md:text-2xl font-bold text-blue-900 w-12 text-center">50%</span>
+                                <p class="text-gray-700 font-medium text-sm md:text-base">من منهج الصف الثالث ثانوي (الأهمية القصوى).</p>
+                            </div>
+                            <div class="flex items-center gap-4 p-3 md:p-4 bg-gray-50 rounded-xl">
+                                <span class="text-xl md:text-2xl font-bold text-amber-600 w-12 text-center">30%</span>
+                                <p class="text-gray-700 font-medium text-sm md:text-base">من منهج الصف الثاني ثانوي.</p>
+                            </div>
+                            <div class="flex items-center gap-4 p-3 md:p-4 bg-gray-50 rounded-xl">
+                                <span class="text-xl md:text-2xl font-bold text-gray-400 w-12 text-center">20%</span>
+                                <p class="text-gray-700 font-medium text-sm md:text-base">من منهج الصف الأول ثانوي.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col items-center order-1 md:order-2">
+                        <div class="chart-container w-full">
+                            <canvas id="distChart"></canvas>
+                        </div>
+                        <p class="mt-4 text-xs md:text-sm text-gray-400 font-medium text-center">توزيع المواد: رياضيات، فيزياء، كيمياء، أحياء</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="max-w-6xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12">استراتيجيات المذاكرة الذكية 🧠</h2>
+             <div class="max-w-2xl mx-auto mb-8">
+                <div class="quote-box text-center">
+                    "لا تذاكر لتعمل بكد، بل ذاكر لتعمل بذكاء."
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-blue-50 p-6 md:p-8 rounded-3xl border border-blue-100">
+                    <div class="text-3xl mb-4">🏗️</div>
+                    <h3 class="text-lg md:text-xl font-bold text-blue-900 mb-3">التأسيس أولاً</h3>
+                    <p class="text-blue-800/70 text-sm leading-relaxed">افهم المفاهيم والقانون بعمق قبل البدء بحل التجميعات لتتجنب النسيان السريع.</p>
+                </div>
+                <div class="bg-amber-50 p-6 md:p-8 rounded-3xl border border-amber-100">
+                    <div class="text-3xl mb-4">🎯</div>
+                    <h3 class="text-lg md:text-xl font-bold text-amber-900 mb-3">قاعدة (20/80)</h3>
+                    <p class="text-amber-800/70 text-sm leading-relaxed">80% من الأسئلة تأتي من 20% من المواضيع الجوهرية. ركز على "زبدة" المنهج.</p>
+                </div>
+                <div class="bg-gray-100 p-6 md:p-8 rounded-3xl border border-gray-200">
+                    <div class="text-3xl mb-4">🕵️</div>
+                    <h3 class="text-lg md:text-xl font-bold text-gray-800 mb-3">الاستبعاد المنطقي</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">استبعد الخيارات المستحيلة أولاً لتزيد فرصتك في الوصول للحل الصحيح حتى عند الحيرة.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="plan" class="max-w-6xl mx-auto scroll-mt-28">
+            <div class="text-center mb-10 md:mb-16">
+                <h2 class="text-2xl md:text-3xl font-bold mb-4">شفرة الجدول الزمني ⏳</h2>
+                 <div class="max-w-2xl mx-auto">
+                    <div class="quote-box">
+                        "النجاح هو مجموع جهود صغيرة تتكرر يوما بعد يوم."
+                        <span class="quote-author">— روبرت كولير</span>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+                <div class="week-card bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-purple-100 border-t-4 border-t-purple-500">
+                    <span class="text-xs font-bold text-purple-500 bg-purple-50 px-2 py-1 rounded">الأسبوع 1</span>
+                    <h3 class="text-lg md:text-xl font-bold mt-3 mb-2">الفيزياء ⚡</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">البدء بتأسيس الفيزياء من الجذور وفهم مفاتيح القوانين الأساسية.</p>
+                </div>
+                <div class="week-card bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-green-100 border-t-4 border-t-green-500">
+                    <span class="text-xs font-bold text-green-500 bg-green-50 px-2 py-1 rounded">الأسبوع 2</span>
+                    <h3 class="text-lg md:text-xl font-bold mt-3 mb-2">الكيمياء 🧪</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">أسرار الكيمياء من الذرة إلى المادة وتبسيط المعادلات والروابط.</p>
+                </div>
+                <div class="week-card bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-blue-100 border-t-4 border-t-blue-500">
+                    <span class="text-xs font-bold text-blue-500 bg-blue-50 px-2 py-1 rounded">الأسبوع 3</span>
+                    <h3 class="text-lg md:text-xl font-bold mt-3 mb-2">الرياضيات 📐</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">إتقان المنطق الرياضي وشرح القوانين من الصفر حتى التمكن.</p>
+                </div>
+                <div class="week-card bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-pink-100 border-t-4 border-t-pink-500">
+                    <span class="text-xs font-bold text-pink-500 bg-pink-50 px-2 py-1 rounded">الأسبوع 4</span>
+                    <h3 class="text-lg md:text-xl font-bold mt-3 mb-2">الأحياء 🧬</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">تبسيط الرسومات المعقدة وفهم دورات الحياة بشكل بصري.</p>
+                </div>
+                <div class="week-card bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-amber-100 border-t-4 border-t-amber-500">
+                    <span class="text-xs font-bold text-amber-500 bg-amber-50 px-2 py-1 rounded">الأسبوع 5</span>
+                    <h3 class="text-lg md:text-xl font-bold mt-3 mb-2">التدريب المكثف 🔥</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">حل تجميعات آخر 3 سنوات وتطبيق استراتيجية الـ 60 ثانية.</p>
+                </div>
+                <div class="week-card bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-red-100 border-t-4 border-t-red-500">
+                    <span class="text-xs font-bold text-red-500 bg-red-50 px-2 py-1 rounded">الأسبوع 6</span>
+                    <h3 class="text-lg md:text-xl font-bold mt-3 mb-2">المراجعة النهائية 🎯</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">التركيز على نقاط الضعف وسد الفجوات قبل ليلة الاختبار.</p>
+                </div>
+            </div>
+             <div class="max-w-2xl mx-auto mt-8">
+                <div class="quote-box text-center">
+                    "نحن لا نرتفع إلى مستوى توقعاتنا، بل نهبط إلى مستوى تدريبنا."
+                    <span class="quote-author">— أرشيلوخوس</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="resources" class="max-w-6xl mx-auto scroll-mt-28">
+            <div class="text-center mb-10">
+                <h2 class="text-2xl md:text-3xl font-bold mb-4">المصادر الذهبية 🔑</h2>
+                <p class="text-sm text-red-500 font-bold mb-4 bg-red-50 inline-block px-4 py-1 rounded-full">ملاحظة: المصادر والتجميعات سوف تتحدث سنوياً بعد كل اختبار</p>
+                
+                <div class="flex flex-wrap justify-center gap-2 mt-6">
+                    <button onclick="filterRes('all')" class="res-filter active px-4 py-2 rounded-full bg-blue-900 text-white font-bold text-sm">الكل</button>
+                    <button onclick="filterRes('foundation')" class="res-filter px-4 py-2 rounded-full bg-gray-200 text-gray-600 font-bold text-sm hover:bg-gray-300">التأسيس</button>
+                    <button onclick="filterRes('practice')" class="res-filter px-4 py-2 rounded-full bg-gray-200 text-gray-600 font-bold text-sm hover:bg-gray-300">التجميعات</button>
+                    <button onclick="filterRes('arena')" class="res-filter px-4 py-2 rounded-full bg-gray-200 text-gray-600 font-bold text-sm hover:bg-gray-300">ميدان التدريب</button>
+                    <button onclick="filterRes('mock')" class="res-filter px-4 py-2 rounded-full bg-gray-200 text-gray-600 font-bold text-sm hover:bg-gray-300">اختبارات محاكية</button>
+                </div>
+            </div>
+            
+            <div id="resGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+                </div>
+            
+             <div class="max-w-2xl mx-auto mt-8">
+                <div class="quote-box text-center">
+                    "العبقري هو 1 % موهبة و 99 % عمل شاق"
+                    <span class="quote-author">— توماس أديسون</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="tracker" class="max-w-6xl mx-auto scroll-mt-28">
+            <div class="bg-blue-900 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-16 shadow-2xl text-white">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-bold mb-4 md:mb-6 italic text-center lg:text-right">"ما يمكن قياسه، يمكن تحسينه."</h2>
+                        <p class="text-blue-100 mb-6 md:mb-8 text-sm md:text-base text-center lg:text-right">سجل نتائجك في الاختبارات المحاكية هنا لتراقب تطور مستواك وتعرف متى تكون مستعداً للقمة.</p>
+                        
+                        <div class="space-y-4 bg-white/10 p-5 md:p-6 rounded-3xl border border-white/20">
+                            <input type="text" id="testName" placeholder="اسم الاختبار (مثلاً: المحاكي الأول)" class="w-full bg-white/20 border border-white/30 rounded-xl px-4 py-3 placeholder:text-blue-200 focus:outline-none focus:ring-2 focus:ring-amber-400 text-white">
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <input type="number" id="testScore" placeholder="الدرجة / 100" class="w-full bg-white/20 border border-white/30 rounded-xl px-4 py-3 placeholder:text-blue-200 focus:outline-none focus:ring-2 focus:ring-amber-400 text-white">
+                                <button onclick="addScore()" class="bg-amber-500 hover:bg-amber-600 px-8 py-3 rounded-xl font-bold transition whitespace-nowrap shadow-lg">إضافة ➕</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-3xl p-4 md:p-6 h-[250px] md:h-[400px] flex items-center justify-center">
+                        <canvas id="progressChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
+            <div class="bg-red-50 p-6 md:p-8 rounded-3xl border border-red-100">
+                <h3 class="text-xl md:text-2xl font-bold text-red-900 mb-6 flex items-center gap-2">⚠️ فخاخ الاختبار</h3>
+                <ul class="space-y-4">
+                    <li class="flex gap-3 items-start">
+                        <span class="font-bold text-red-500">1.</span>
+                        <p class="text-red-800 text-sm md:text-base"><span class="font-bold">فخ التظليل:</span> تأكد من رقم السؤال قبل تظليل الإجابة في الورقة لكي لا يزحف الترتيب.</p>
+                    </li>
+                    <li class="flex gap-3 items-start">
+                        <span class="font-bold text-red-500">2.</span>
+                        <p class="text-red-800 text-sm md:text-base"><span class="font-bold">فخ الوقت:</span> السؤال الذي يأخذ أكثر من دقيقة، تجاوزه فوراً وضع علامة للعودة له لاحقاً.</p>
+                    </li>
+                    <li class="flex gap-3 items-start">
+                        <span class="font-bold text-red-500">3.</span>
+                        <p class="text-red-800 text-sm md:text-base"><span class="font-bold">فخ الآلة الحاسبة:</span> تذكر أنها ممنوعة؛ تدرب من الآن على التبسيط اليدوي والذهني.</p>
+                    </li>
+                </ul>
+                 <div class="quote-box mt-6">
+                    "الأخطاء هي دروس في طريق النجاح، المهم ألا تكررها."
+                </div>
+            </div>
+            <div class="bg-indigo-50 p-6 md:p-8 rounded-3xl border border-indigo-100">
+                <h3 class="text-xl md:text-2xl font-bold text-indigo-900 mb-6 flex items-center gap-2">🌙 ليلة الاختبار</h3>
+                <ul class="space-y-4 text-indigo-800">
+                    <li class="flex items-center gap-3 text-sm md:text-base">✨ توقف عن المذاكرة في الثامنة مساءً.</li>
+                    <li class="flex items-center gap-3 text-sm md:text-base"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+     xmlns="http://www.w3.org/2000/svg">
+  <rect x="2" y="4" width="20" height="16" rx="2" stroke="black" stroke-width="2"/>
+  <circle cx="8" cy="10" r="2" stroke="black" stroke-width="2"/>
+  <line x1="5" y1="16" x2="11" y2="16" stroke="black" stroke-width="2"/>
+  <line x1="13" y1="10" x2="19" y2="10" stroke="black" stroke-width="2"/>
+  <line x1="13" y1="14" x2="19" y2="14" stroke="black" stroke-width="2"/>
+</svg>
+ تأكد من إحضار هويتك الوطنية وموعدك.</li>
+                    <li class="flex items-center gap-3 text-sm md:text-base">💤 نم لمدة 8 ساعات على الأقل.</li>
+                    <li class="flex items-center gap-3 text-sm md:text-base">🧘 مارس تمارين التنفس داخل القاعة لتهدئة القلق.</li>
+                </ul>
+                 <div class="quote-box mt-6">
+                    "ثق بنفسك، فأنت تعرف أكثر مما تعتقد أنك تعرفه."
+                    <span class="quote-author">— بنجامين سبوك</span>
+                </div>
+            </div>
+        </section>
+
+<section class="max-w-4xl mx-auto text-center bg-green-50 p-8 md:p-10 rounded-[2rem] md:rounded-[3rem] border border-green-200">
+    <h2 class="text-xl md:text-2xl font-bold text-green-900 mb-4">شفرة العزيمة (أبطال الإرادة) 💪</h2>
+    <p class="text-green-800 mb-6 leading-relaxed text-sm md:text-base">
+        إلى أبطالنا ذوي الإعاقة: أنتم فخرنا. تذكروا اختيار المراكز المهيأة عند الحجز.
+    </p>
+    <div class="text-green-900 text-sm md:text-base leading-relaxed mb-6 font-medium space-y-2">
+        <p>• الى ابطال الإعاقة الحركية: اختر المراكز المهيأة "الصديقة للكراسي" عند حجز موعدك في قياس.</p>
+        <p>• الى ابطال الإعاقة البصرية والسمعية: هنالك مبادرة تطوعيه سعودية تهتم بكل محتوى مساعد لكم وهي قناة ارادة</p>
+    </div>
+    
+    <a href="https://eradah.org.sa/" target="_blank" class="inline-block bg-green-600 text-white px-8 py-3 rounded-full font-bold hover:bg-green-700 transition">زيارة مبادرة إرادة</a>
+    
+    <div class="mt-8">
+        <div class="quote-box text-center text-green-900">
+            "العزيمه تبني الجسور فوق المستحيل"
+        </div>
+    </div>
+</section>
+
+    </main>
+<footer class="bg-blue-900 text-white py-12 md:py-16">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+             <p class="text-blue-200 max-w-xl mx-auto mb-6 text-sm md:text-base font-medium">أنت على بعد خطوة واحدة. لقد فعلت ما بوسعك، والآن حان وقت الحصاد. نحن نؤمن بك.</p>
+            <h3 class="text-2xl md:text-3xl font-black mb-10">نراك في القمة! 🎓</h3>
+
+            <div class="flex flex-col justify-center gap-2 mb-8">
+                <span class="text-blue-300 text-sm font-bold">عبدالله غازي المرواني</span>
+                <span class="text-blue-300 text-sm">مجمَّع المعهد العلمي الثانوي</span>
+            </div>
+            
+            <div class="max-w-2xl mx-auto mt-8">
+                <div class="quote-box text-blue-900">
+                    "المستقبل ينتمي لأولئك الذين يؤمنون بجمال أحلامهم."
+                    <span class="quote-author block mt-2">- إيليانور روزفلت</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+<script>
+    // نظام توليد العلامات المائية العلمية المحدث بكافة الرموز المطلوبة
+    const scienceEmojis = [
+        '🧑‍🔬', '🧪', '🧫', '🧪', '⚓', '📚', '🌡️', '🌍', '⚛️', '☢️', 
+        '☣️', '🔥', '💎', '🧑‍🔬', '⚗️', '💧', '⚡', '🔋', '🔌', '💡', 
+        '🔦', '🌌', '⭐', '☀️', '🪐', '🛰️', '', '⚙️', '🕰️', 'استمر', 'ركّز','اجتهد','لا تستسلم','أنت قادر','تقدر تنجح','أنت قدها','النجاح قريب','شدّ حيلك','مستقبلك ينتظرك','خطوة بخطوة',
+        '🔭', '🔍', '', '🧠', '🦠', '', '🧠', '', '🧪', '🦴', 
+        '❄️', '🧬', '🌦️', '👂', '🌳', '🌿', '🍃', '🍄', '🌸', '🐒', 
+        '🐣', '🐟', '➕', '➖', '✖️', '➗', '🛰️', '♾️', '📐', '📏', 
+        '💵', '🧪', '📊', '📈', '📉', '📉', '✅', '❌', '❓', '🎯', 
+        '🔭', '📚', '📖', '📝', '✏️', '🖋️', '🎓', '🏫'
+    ];
+
+    function createWatermarks() {
+        const grid = document.getElementById('watermarkGrid');
+        const columnCount = 10;
+        
+        // مسح المحتوى القديم إذا وجد
+        grid.innerHTML = '';
+
+        for (let i = 0; i < columnCount; i++) {
+            const col = document.createElement('div');
+            col.className = `column ${i % 2 === 0 ? 'col-even' : 'col-odd'}`;
+            
+            // زيادة العدد لملء الشاشة إذا لزم الأمر
+            for (let j = 0; j < 15; j++) {
+                const div = document.createElement('div');
+                div.className = 'emoji';
+                // اختيار عشوائي من القائمة الشاملة
+                div.innerText = scienceEmojis[Math.floor(Math.random() * scienceEmojis.length)];
+                col.appendChild(div);
+            }
+            grid.appendChild(col);
+        }
+    }
+        // Data Structure
+        const resources = [
+            { title: "تأسيس الرياضيات", author: "أ. علي العنبري", desc: "المحطة الأولى لإتقان الرياضيات من الجذور.", link: "https://youtube.com/@ali-math?si=x4XxRswK00UvSk24", cat: "foundation", icon: "📐" },
+            { title: "تأسيس الفيزياء", author: "أ. ناصر عبدالكريم", desc: "المرجع الشامل لتبسيط مفاهيم الفيزياء وتجميعات الكتاب.", link: "https://youtube.com/@daralharf-ch?si=saCGfrlSnb1C-HdO", cat: "foundation", icon: "⚡" },
+            { title: "الخلطة الذهبية", author: "فرح إبراهيم", desc: "دمج الفيزياء والكيمياء بذكاء وشروحات ذهبية.", link: "https://youtube.com/channel/UCDGKX5lo7J1ytM168jSPlkw?si=dlq2T9xGfrDQ9jiZ", cat: "foundation", icon: "🧪" },
+            { title: "تأسيس الأحياء", author: "أ. فيصل الجمعان", desc: "طريقك الأسهل لفهم الرسومات التوضيحية والدورات.", link: "https://youtube.com/@faisalteacher?si=PCBzsSUyGQdnf442", cat: "foundation", icon: "🧬" },
+            { title: "تأسيس الكيمياء", author: "أ. محمد العمري", desc: "تبسيط المعادلات والكيمياء العضوية بطريقة لا تنسى.", link: "https://youtube.com/@-channelchemistry?si=TDWjLTJFSASl3vn2", cat: "foundation", icon: "⚗️" },
+            { title: "منصة يلو", author: "التأسيس الشامل", desc: "ترتيب الأفكار والمراجعة الذكية قبل الانطلاق.", link: "https://yellowqt.com/ar", cat: "foundation", icon: "🎨" },
+            { title: "تجميعات غشام", author: "قناة تليجرام", desc: "المصدر الأحدث للأسئلة المتكررة وتجميعات الأعوام.", link: "https://t.me/Ghasham22", cat: "practice", icon: "📦" },
+            { title: "بنك الأسئلة الضخم", author: "ملف Drive", desc: "شفرة الأسرار والأسئلة الملتوية.", link: "https://drive.google.com/file/d/1fVZx9W-tBIBi89fRDPquesEP3rnaVB0V/view", cat: "practice", icon: "📂" },
+            { title: "تجميعات جهاد", author: "شفرة المبدعين", desc: "ملفات شاملة ومنظمة للمذاكرة النهائية.", link: "https://drive.google.com/file/d/18hdw5Ino2Oiv-eA1DQxLnwBv7z5Qem3_", cat: "practice", icon: "📑" },
+            { title: "منصة همة", author: "ميدان التدريب", desc: "التدريب مع الآخرين وتطبيق استراتيجية الـ 60 ثانية.", link: "https://hemma.sa/home", cat: "arena", icon: "🏹" },
+            { title: "نون أكاديمية", author: "شفرة التحدي", desc: "تحديات ومسابقات مباشرة لرفع سرعة الحل.", link: "https://www.noonacademy.com/ar-sa", cat: "arena", icon: "⏱️" },
+            { title: "تدريبات قناة مظلة ", author: "شفرة التدريب ومعرفة نقاط الضعف", desc: "تدرب على اختبار الكتروني وتعرف على نتيجة كل سؤال", link: "https://t.me/MezlaT1", cat: "arena", icon: "🎯" },
+            { title: "الاختبار المحاكي الأول", author: "أ. محمد السحاري", desc: "اختبار تجريبي شامل لقياس مستواك.", link: "https://drive.google.com/file/d/1NZojUUUahIfmdd3ykGs7A5sBg_f7eIdA/view?usp=sharing", cat: "mock", icon: "📝" },
+            { title: "الاختبار المحاكي الثاني", author: "أ. محمد السحاري", desc: "نموذج محاكي آخر لزيادة التدريب.", link: "https://drive.google.com/file/d/1QeYn0Dhool1kaAmY9MBLXFCHn0LQA0aw/view?usp=sharing", cat: "mock", icon: "📝" },
+            { title: "الاختبار المحاكي الثالث", author: "أ. محمد السحاري", desc: "الاختبار النهائي قبل الدخول للاختبار الفعلي.", link: "https://drive.google.com/file/d/1G-WWjCVhyAp6erEM8rlUxnlG-zRKPdCp/view?usp=sharing", cat: "mock", icon: "📝" }
+        ];
+
+        let scores = [];
+        let chart;
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+            } else {
+                menu.classList.add('hidden');
+            }
+        }
+
+        function initCharts() {
+            const ctxDist = document.getElementById('distChart').getContext('2d');
+            new Chart(ctxDist, {
+                type: 'doughnut',
+                data: {
+                    labels: ['ثالث ثانوي', 'ثاني ثانوي', 'أول ثانوي'],
+                    datasets: [{
+                        data: [50, 30, 20],
+                        backgroundColor: ['#1e3a8a', '#d97706', '#94a3b8'],
+                        hoverOffset: 15
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { 
+                            position: 'bottom', 
+                            labels: { 
+                                font: { family: 'Tajawal', weight: 'bold', size: 11 },
+                                boxWidth: 12
+                            } 
+                        } 
+                    }
+                }
+            });
+
+            renderProgress();
+        }
+
+        function renderProgress() {
+            const ctxProg = document.getElementById('progressChart').getContext('2d');
+            if(chart) chart.destroy();
+            chart = new Chart(ctxProg, {
+                type: 'bar',
+                data: {
+                    labels: scores.map(s => s.name),
+                    datasets: [{
+                        label: 'الدرجة المحققة',
+                        data: scores.map(s => s.val),
+                        backgroundColor: '#d97706',
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { y: { beginAtZero: true, max: 100 } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function addScore() {
+            const name = document.getElementById('testName').value;
+            const score = document.getElementById('testScore').value;
+            if(name && score) {
+                scores.push({name, val: parseInt(score)});
+                renderProgress();
+                document.getElementById('testName').value = '';
+                document.getElementById('testScore').value = '';
+            }
+        }
+
+        function renderResources(data) {
+            const grid = document.getElementById('resGrid');
+            grid.innerHTML = data.map(r => `
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md transition group">
+                    <div>
+                        <div class="text-3xl mb-4 group-hover:scale-125 transition transform origin-right">${r.icon}</div>
+                        <h3 class="font-bold text-lg mb-1">${r.title}</h3>
+                        <p class="text-xs text-blue-500 font-bold mb-3">${r.author}</p>
+                        <p class="text-sm text-gray-500 mb-6 leading-relaxed">${r.desc}</p>
+                    </div>
+                    <a href="${r.link}" target="_blank" class="block text-center py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-blue-900 hover:text-white transition">انتقل للمصدر ↗</a>
+                </div>
+            `).join('');
+        }
+
+        function filterRes(cat) {
+            document.querySelectorAll('.res-filter').forEach(b => {
+                b.classList.remove('bg-blue-900', 'text-white');
+                b.classList.add('bg-gray-200', 'text-gray-600');
+            });
+            event.target.classList.add('bg-blue-900', 'text-white');
+            event.target.classList.remove('bg-gray-200');
+
+            if(cat === 'all') renderResources(resources);
+            else renderResources(resources.filter(r => r.cat === cat));
+        }
+
+        window.onload = () => {
+            createWatermarks();
+            initCharts();
+            renderResources(resources);
+        };
+    </script>
+</body>
+</html>
