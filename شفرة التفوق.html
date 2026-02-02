@@ -286,6 +286,7 @@
                     <button onclick="filterRes('practice')" class="res-filter px-4 py-2 rounded-full bg-gray-200 text-gray-600 font-bold text-sm hover:bg-gray-300">التجميعات</button>
                     <button onclick="filterRes('arena')" class="res-filter px-4 py-2 rounded-full bg-gray-200 text-gray-600 font-bold text-sm hover:bg-gray-300">ميدان التدريب</button>
                     <button onclick="filterRes('mock')" class="res-filter px-4 py-2 rounded-full bg-gray-200 text-gray-600 font-bold text-sm hover:bg-gray-300">اختبارات محاكية</button>
+                    <button onclick="filterRes('theory')" class="res-filter px-4 py-2 rounded-full bg-gray-200 text-gray-600 font-bold text-sm hover:bg-gray-300">الاختبارات النظرية</button>
                 </div>
             </div>
             
@@ -373,7 +374,7 @@
     </p>
     <div class="text-green-900 text-sm md:text-base leading-relaxed mb-6 font-medium space-y-2">
         <p>• الى ابطال الإعاقة الحركية: اختر المراكز المهيأة "الصديقة للكراسي" عند حجز موعدك في قياس.</p>
-        <p>• الى ابطال الإعاقة البصرية والسمعية: هنالك مبادرة تطوعيه سعودية تهتم بكل محتوى مساعد لكم وهي قناة ارادة</p>
+        <p>• الى ابطال الإعاقة البصرية والسمعية: هنالك مبادرة تطوعية سعودية تهتم بكل محتوى مساعد لكم وهي قناة ارادة</p>
     </div>
     
     <a href="https://eradah.org.sa/" target="_blank" class="inline-block bg-green-600 text-white px-8 py-3 rounded-full font-bold hover:bg-green-700 transition">زيارة مبادرة إرادة</a>
@@ -411,7 +412,7 @@
         '☣️', '🔥', '💎', '🧑‍🔬', '⚗️', '💧', '⚡', '🔋', '🔌', '💡', 
         '🔦', '🌌', '⭐', '☀️', '🪐', '🛰️', '', '⚙️', '🕰️', 'استمر', 'ركّز','اجتهد','لا تستسلم','أنت قادر','تقدر تنجح','أنت قدها','النجاح قريب','شدّ حيلك','مستقبلك ينتظرك','خطوة بخطوة',
         '🔭', '🔍', '', '🧠', '🦠', '', '🧠', '', '🧪', '🦴', 
-        '❄️', '🧬', '🌦️', '👂', '🌳', '🌿', '🍃', '🍄', '🌸', '', 
+        '❄️', '🧬', '🌦️', '👂', '🌳', '🌿', '🍃', '🍄', '🌸', '🐒', 
         '🐣', '🐟', '➕', '➖', '✖️', '➗', '🛰️', '♾️', '📐', '📏', 
         '💵', '🧪', '📊', '📈', '📉', '📉', '✅', '❌', '❓', '🎯', 
         '🔭', '📚', '📖', '📝', '✏️', '🖋️', '🎓', '🏫'
@@ -455,7 +456,10 @@
             { title: "تدريبات قناة مظلة ", author: "شفرة التدريب ومعرفة نقاط الضعف", desc: "تدرب على اختبار الكتروني وتعرف على نتيجة كل سؤال", link: "https://t.me/MezlaT1", cat: "arena", icon: "🎯" },
             { title: "الاختبار المحاكي الأول", author: "أ. محمد السحاري", desc: "اختبار تجريبي شامل لقياس مستواك.", link: "https://drive.google.com/file/d/1NZojUUUahIfmdd3ykGs7A5sBg_f7eIdA/view?usp=sharing", cat: "mock", icon: "📝" },
             { title: "الاختبار المحاكي الثاني", author: "أ. محمد السحاري", desc: "نموذج محاكي آخر لزيادة التدريب.", link: "https://drive.google.com/file/d/1QeYn0Dhool1kaAmY9MBLXFCHn0LQA0aw/view?usp=sharing", cat: "mock", icon: "📝" },
-            { title: "الاختبار المحاكي الثالث", author: "أ. محمد السحاري", desc: "الاختبار النهائي قبل الدخول للاختبار الفعلي.", link: "https://drive.google.com/file/d/1G-WWjCVhyAp6erEM8rlUxnlG-zRKPdCp/view?usp=sharing", cat: "mock", icon: "📝" }
+            { title: "الاختبار المحاكي الثالث", author: "أ. محمد السحاري", desc: "الاختبار النهائي قبل الدخول للاختبار الفعلي.", link: "https://drive.google.com/file/d/1G-WWjCVhyAp6erEM8rlUxnlG-zRKPdCp/view?usp=sharing", cat: "mock", icon: "📝" },
+            { title: "الاختبار النظري الأول", author: "شفرة التفوق", desc: "اختبار نظري شامل للمفاهيم.", link: "https://drive.google.com/file/d/1FJwngSggewxgNqC1F9GRoJO5THb8KIO7/view?usp=sharing", cat: "theory", icon: "📑" },
+            { title: "الاختبار النظري الثاني", author: "شفرة التفوق", desc: "نموذج نظري لترسيخ المعلومات.", link: "https://drive.google.com/file/d/1yoVipnneCd-P0NhrDETpuVDLMfLGfhuP/view?usp=sharing", cat: "theory", icon: "📑" },
+            { title: "الاختبار النظري الثالث", author: "شفرة التفوق", desc: "اختبار نظري نهائي للمراجعة.", link: "https://drive.google.com/file/d/1J5uVA7TYVBikUV50iIlA9UnzwBU7V7zP/view?usp=sharing", cat: "theory", icon: "📑" }
         ];
 
         let scores = [];
@@ -568,5 +572,4 @@
         };
     </script>
 </body>
-
 </html>
